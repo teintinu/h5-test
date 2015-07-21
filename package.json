@@ -1,0 +1,33 @@
+{
+  "name": "h5-test",
+  "version": "0.0.1",
+  "description": "",
+  "main": "h5test.js",
+  "bin": {
+    "h5-test-run": "./bin/run.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thr0w/h5-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thr0w/h5-test/issues"
+  },
+  "homepage": "https://github.com/thr0w/h5-test",
+  "dependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5",
+    "yadda": "^0.15.0"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "chai-subset": "^1.0.1",
+    "mocha": "^2.2.5",
+    "yadda": "^0.15.0"
+  }
+}
