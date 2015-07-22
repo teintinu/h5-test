@@ -35,8 +35,10 @@ module.exports = function (h5_test) {
       //process.stdout.write(stats.toString(outputOptions) + "\n");
 
       var result = stats.toJson(outputOptions);
-      expect(result.errors).to.be.eql([]);
-
+      if (result.errors) {
+        console.log(JSON.stringify(result.errors.null, 2));
+        expect(result.errors).to.be.eql([]);
+      }
       expect(
         fs.existsSync(h5_test.temp + configPath + '/bundle.js'),
         'bundle.js deve existir').to.be.ok;
