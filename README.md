@@ -100,6 +100,6 @@ programa a inserção de um script na página
 `h5_test.inject('arq.js')`
 
 ### dump
-programa a criação de um arquivo com o SPEC atual da página.
+* testar
 `h5_test.dump('temp.spec')`
-> o arquivo é criado na pasta temp 
+
