@@ -1,9 +1,3 @@
-# h5-test
-
-## usage:
-
-npm install h5-test
-
 ## folders sample
 ```
 +
