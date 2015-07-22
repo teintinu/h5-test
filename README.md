@@ -93,7 +93,7 @@ programa a mudança de url na execução de testes
 
 ### resize
 programa a mudança do tamanho da janela do navegador durante a execução dos testes 
-`h5_test.resize(1024,768)`
+`h5_test.resize('1024x768')`
 
 ### inject
 programa a inserção de um script na página
