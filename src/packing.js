@@ -35,8 +35,11 @@ module.exports = function (h5_test) {
       //process.stdout.write(stats.toString(outputOptions) + "\n");
 
       var result = stats.toJson(outputOptions);
-      if (result.errors) {
-        console.log(JSON.stringify(result.errors.null, 2));
+      if (result.errors.length) {
+        console.log('webpack.config.js error:');
+        result.errors.forEach(function (err) {
+          console.log('  ' + err);
+        });
         expect(result.errors).to.be.eql([]);
       }
       expect(

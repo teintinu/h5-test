@@ -24,7 +24,6 @@ module.exports = function (h5_test) {
     });
   }
 
-
   function start_server(callback) {
     network.get_interfaces_list(function (err, myips) {
       expect(err).to.not.exist;
@@ -38,8 +37,15 @@ module.exports = function (h5_test) {
         port: '48000'
       };
 
-      console.log('Server running at ' + h5_test.listenning.addr + ':' + h5_test.listenning.port);
       server = app_express.listen(h5_test.listenning.port, h5_test.listenning.addr);
+
+      console.log('Server running at:');
+      h5_test.galen_cases.forEach(function (_case) {
+        console.log('http://' + h5_test.listenning.addr + ':' + h5_test.listenning.port +
+          '/' + _case.case_folder
+        );
+      });
+
       callback();
     });
   }
