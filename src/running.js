@@ -1,6 +1,10 @@
 var
   fs = require('fs'),
-  expect = require('chai').expect;
+  path = require('path'),
+  expect = require('chai').expect,
+  child_process = require('child_process');
+
+var galen_folder = path.resolve(__dirname + '/../node_modules/galenframework-cli');
 
 module.exports = function (h5_test) {
 
@@ -9,7 +13,7 @@ module.exports = function (h5_test) {
 
   function generate_test_file() {
     var test_file = [
-    '  @@ set',
+    '@@ set',
     '    gridUrl         http://192.168.25.102:4444/wd/hub',
     '',
     '@@ table browsers',
@@ -26,7 +30,7 @@ module.exports = function (h5_test) {
       test_file.push(_case.scenario.title + ' (${browserName})');
       test_file.push('  selenium grid ${gridUrl} --page ' +
 
-        'http://' + h5_test.listenning.addr + ':' + h5_test.listenning.port + '/' + _case.case_folder
+        'http://' + h5_test.http_root + '/' + _case.http_index
 
         +
         ' ${gridArgs}');
@@ -41,11 +45,44 @@ module.exports = function (h5_test) {
       });
     });
 
-    fs.writeFileSync(h5_test.temp_root + new Date().toISOString().replace(/:/g, '_') + '.test', test_file.join('\n'), 'utf-8');
+    h5_test.galen_test_file = h5_test.temp_root + new Date().toISOString().replace(/:/g, '_') + '.test';
+    fs.writeFileSync(h5_test.galen_test_file, test_file.join('\n'), 'utf-8');
   }
 
   function execute_galen(callback) {
-    console.log('execute_galen: TODO');
+
+    var cmd = ['galen', 'test', h5_test.galen_test_file, //
+               '--htmlreport', 'report', '--jsonreport', 'report'];
+
+    console.log('executando testes');
+
+    child_process.exec(cmd.join(' '), {
+        cwd: h5_test.temp_root
+      },
+      function (err, stdout, stderr) {
+        expect(err).to.not.exist;
+        var result = JSON.parse(fs.readFileSync(h5_test.temp_root + '/report/report.json'));
+        var failed = false,
+          passed = 0,
+          errors = 0,
+          warnings = 0,
+          duration = 0;
+        result.tests.forEach(function (test) {
+          if (test.failed)
+            failed = true;
+          passed += test.statistic.passed;
+          errors += test.statistic.errors;
+          warnings += test.statistic.warnings;
+          duration += test.duration;
+        });
+        failed = failed || errors > 0;
+        if (failed)
+          console.log('Erro nos testes, acesse o relatório em: ' + h5_test.http_root + '/report/report.html');
+        else
+          console.log('SUCESSO!!! Acesse o relatório em: ' + h5_test.http_root + '/report/report.html');
+        callback(failed);
+      }
+    );
   }
 
 };

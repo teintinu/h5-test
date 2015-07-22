@@ -1,10 +1,9 @@
 /* jslint node: true */
 
-
 var fs = require('fs'),
   path = require('path');
 
-var test_folder=process.cwd() + '/test';
+var test_folder = process.cwd() + '/test';
 
 fs.readdirSync(test_folder).filter(function (file) {
   return file.substr(-3) === '.js';

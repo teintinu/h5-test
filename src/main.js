@@ -26,9 +26,12 @@ module.exports = function (root, localization) {
     h5_test.start_server(function () {
       h5_test.generate_test_file();
       h5_test.execute_galen(function () {
-        h5_test.stop_server(function () {
-          console.log('.');
-        });
+        console.log('O servidor será finalizado em 10s');
+        setTimeout(function () {
+          h5_test.stop_server(function () {
+            console.log('.');
+          });
+        }, 10000);
       });
     });
   });

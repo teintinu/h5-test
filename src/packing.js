@@ -6,11 +6,19 @@
 /* este módulo executa a compactação pelo webpack */
 
 var webpack = require('webpack'),
-  webpack_convert_argv = require('../node_modules/webpack/bin/convert-argv'),
+  Module = require('module'),
   optimist = require("optimist"),
-  config_optimist = require('../node_modules/webpack/bin/config-optimist')(optimist),
   expect = require('chai').expect,
-  fs = require('fs');
+  fs = require('fs'),
+  path = require('path');
+
+
+var webpack_filename = Module._resolveFilename('webpack', module);
+var webpack_folder = path.resolve(path.dirname(webpack_filename) + '/..');
+
+var
+  webpack_convert_argv = require(webpack_folder + '/bin/convert-argv'),
+  config_optimist = require(webpack_folder + '/bin/config-optimist')(optimist);
 
 module.exports = function (h5_test) {
   h5_test.pack = pack;
@@ -21,6 +29,7 @@ module.exports = function (h5_test) {
 
     process.chdir(this.temp + configPath);
 
+    global.webpack = webpack;
     var argv = optimist.argv;
     var options = webpack_convert_argv(optimist, argv);
     options.context = h5_test.temp + configPath;

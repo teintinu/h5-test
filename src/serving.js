@@ -13,17 +13,19 @@ module.exports = function (h5_test) {
   function serve(arq) {
     h5_test.file(arq);
 
-//    app_express.get(h5_test.galen_case.case_folder, function (req, res) {
-//      res.redirect(h5_test.galen_case.case_folder + '/');
-//    });
+    h5_test.galen_case.http_index = arq;
 
-//    console.log('express '+h5_test.galen_case.case_folder + ' ---- '+h5_test.temp);
+    //    app_express.get(h5_test.galen_case.case_folder, function (req, res) {
+    //      res.redirect(h5_test.galen_case.case_folder + '/');
+    //    });
 
-//    app_express.use(h5_test.galen_case.case_folder  , express.static(h5_test.temp));
+    //    console.log('express '+h5_test.galen_case.case_folder + ' ---- '+h5_test.temp);
 
-//    app_express.get(h5_test.galen_case.case_folder + '/', function (req, res) {
-//      res.send('index.html');
-//    });
+    //    app_express.use(h5_test.galen_case.case_folder  , express.static(h5_test.temp));
+
+    //    app_express.get(h5_test.galen_case.case_folder + '/', function (req, res) {
+    //      res.send('index.html');
+    //    });
   }
 
   function start_server(callback) {
@@ -41,11 +43,23 @@ module.exports = function (h5_test) {
 
       server = app_express.listen(h5_test.listenning.port, h5_test.listenning.addr);
 
-      console.log('Server running at:');
-      h5_test.galen_cases.forEach(function (_case) {
-        console.log('http://' + h5_test.listenning.addr + ':' + h5_test.listenning.port +
-          '/' + _case.case_folder
-        );
+      app_express.use(express.static(h5_test.temp_root));
+
+      h5_test.http_root = 'http://' + h5_test.listenning.addr + ':' + h5_test.listenning.port;
+      console.log('Server running at: ' + h5_test.http_root);
+
+      app_express.get('/', function (req, res, next) {
+        res.set('Content-Type', 'text/html');
+        res.write('<html><body>');
+        h5_test.galen_cases.forEach(function (_case) {
+          var link = h5_test.http_root + '/' + _case.case_folder;
+          res.write('<a href="' + link + _case.http_index + '">' + _case.case_folder +
+                    ' - ' + _case.scenario.title + '</a><br>');
+        });
+
+        res.write('<a href="' + h5_test.http_root + 'report/report.html">Relatório</a><br>');
+
+        res.end('</body></html>');
       });
 
       callback();
