@@ -38,7 +38,7 @@ module.exports = function (h5_test) {
       myip = myip[0].ip_address;
       h5_test.listenning = {
         addr: myip,
-        port: '48000'
+        port: '48001'
       };
 
       server = app_express.listen(h5_test.listenning.port, h5_test.listenning.addr);

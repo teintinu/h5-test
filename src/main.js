@@ -22,7 +22,13 @@ module.exports = function (root, localization) {
   testing(h5_test);
   running(h5_test);
 
+  var bug_run=false;
   h5_test.declare_tests(function () {
+    if (bug_run){
+      console.log('bug_run');
+      return;
+    }
+    bug_run=true;
     h5_test.start_server(function () {
       h5_test.generate_test_file();
       h5_test.execute_galen(function (failed) {

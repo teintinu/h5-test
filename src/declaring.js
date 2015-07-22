@@ -26,7 +26,7 @@ module.exports = function (h5_test, localization) {
     var library = search_steps();
     search_features(library, function (err) {
       expect(err).to.not.exists;
-      callback();
+      return callback();
     });
   }
 

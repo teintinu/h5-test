@@ -35,11 +35,13 @@ module.exports = function (h5_test) {
 
       _case.stmts.forEach(function (stmt) {
         if (stmt.check)
-          test_file.push('     check ' + _case.case_folder + '/' + stmt.check);
-        else if (stmt.test)
-          test_file.push('     run ' + _case.case_folder + '/' + stmt.check)
+          test_file.push('     check ' + _case.case_folder + stmt.check);
+        else if (stmt.run)
+          test_file.push('     run ' + _case.case_folder + stmt.run + ' ' + stmt.args)
+        else if (stmt.wait)
+          test_file.push('     wait ' + stmt.wait)
         else
-          expect(stmt).to.be.false;
+          expect(stmt, 'comando invalido para o galen use check ou run').to.be.false;
       });
     });
 
