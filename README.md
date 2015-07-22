@@ -26,7 +26,7 @@ npm install h5-test
 
 ## escrever a integração em steps
 
-```
+```javascript
 module.exports = function (library, expect, h5_test) {
   .then('o processo atual será (.*)', function (curr_process, next) {
     h5_test.replace('___curr_process___', curr_process);
@@ -76,5 +76,13 @@ copia o arquivo da pasta template para pasta temp, executando substituições de
 `h5_test.run('test/r1.js');`
 
 ### wait
-adiciona uma pausa na executação dos testes, a unidade pode ser em ms ou s
+programa uma pausa na executação dos testes, a unidade pode ser em ms ou s
 `h5_test.wait('200ms')`
+
+### open
+programa a mudança de url na execução de testes
+`h5_test.open('http://host/page.html')`
+
+### resize
+programa a mudança do tamanho da janela do navegador durante a execução dos testes 
+`h5_test.resize(1024,768)`
