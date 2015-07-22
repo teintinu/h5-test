@@ -40,6 +40,14 @@ module.exports = function (h5_test) {
           test_file.push('     run ' + _case.case_folder + stmt.run + ' ' + stmt.args)
         else if (stmt.wait)
           test_file.push('     wait ' + stmt.wait)
+        else if (stmt.open)
+          test_file.push('     open ' + stmt.open)
+        else if (stmt.resize)
+          test_file.push('     resize ' + stmt.resize)
+        else if (stmt.inject)
+          test_file.push('     inject ' + stmt.inject)
+        else if (stmt.dump && h5_test.dev_mode)
+          test_file.push('     dump ' + stmt.dump)
         else
           expect(stmt, 'comando invalido para o galen use check ou run').to.be.false;
       });
