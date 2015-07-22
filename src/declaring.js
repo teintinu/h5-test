@@ -6,7 +6,10 @@
 /* este módulo integra yadda, mocha e chai */
 
 var Yadda = require('yadda'),
-  chai = require('chai');
+  chai = require('chai'),
+  fs = require('fs'),
+  path = require('path'),
+  rimraf = require('rimraf');
 
 chai.use(require('chai-subset'));
 
@@ -20,14 +23,14 @@ module.exports = function (h5_test, localization) {
 
   function declare_tests() {
     var library = search_steps();
-    this.search_features(library);
+    search_features(library);
   }
 
   /* procura todos os arquivos .feature e integra com o mocha */
 
   function search_features(library) {
 
-    var feature_dir = root + '/test/features';
+    var feature_dir = h5_test.root + '/test/features';
     var case_idx = 0;
 
     new Yadda.FeatureFileSearch(feature_dir).each(function (file) {
@@ -38,16 +41,19 @@ module.exports = function (h5_test, localization) {
         scenarios(feature.scenarios,
           function (scenario_mocha, scenario, done) {
             var idx = -1;
-            exec_next_step();
+            var case_id = '00000' + (++case_idx);
+            case_id = case_id.substr(case_id.length - 5);
+            h5_test.temp = h5_test.temp_root +
+              path.basename(file, '.feature') + '_' +
+              case_id + '/';
+
+            rimraf(h5_test.temp, exec_next_step);
 
             function exec_next_step(err) {
               idx++;
               if (err || idx >= scenario.steps.length)
                 done(err);
               else {
-                var case_id = '00000' + (++case_idx),
-                  case_id = case_id.substr(id.length - 5);
-                this.temp = this.temp_root + case_id + '/';
                 yadda.run(scenario.steps[idx], exec_next_step);
               }
             }
@@ -63,12 +69,12 @@ module.exports = function (h5_test, localization) {
   function search_steps(steps, library) {
     if (!library) library = create_library();
 
-    var steps_dir = root + '/test/steps';
+    var steps_dir = h5_test.root + '/test/steps';
 
     var files = fs.readdirSync(steps_dir);
     files.forEach(function (file) {
       var step = require(steps_dir + '/' + file);
-      step(library, chai.expect, this);
+      step(library, chai.expect, h5_test);
     });
 
     return library;
@@ -78,7 +84,7 @@ module.exports = function (h5_test, localization) {
   function create_library() {
     var cases = {};
 
-    var dictionary = new Dictionary()
+    var dictionary = new Yadda.Dictionary()
       .define('CASE', /(\w+)/, function unique(key, next) {
         if (cases[key])
           return next(new Error('Duplicated key: ' + key));
@@ -86,8 +92,6 @@ module.exports = function (h5_test, localization) {
         next(null, key);
       });
 
-    library = Yadda.localisation.default.library(dictionary);
-    return library;
+    return Yadda.localisation.default.library(dictionary);
   }
-
 }

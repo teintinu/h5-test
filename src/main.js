@@ -1,8 +1,11 @@
 var declaring = require('./declaring.js'),
   templating = require('./templating.js'),
-  packing = require('./packing.js');
+  packing = require('./packing.js'),
+  serving = require('./serving.js'),
+  testing = require('./testing.js'),
+  path = require('path');
 
-module.init = function (root, localization) {
+module.exports = function (root, localization) {
 
 
   this.root = path.resolve(root);
@@ -10,7 +13,9 @@ module.init = function (root, localization) {
 
   declaring(this, localization);
   templating(this);
-  templating(this);
+  packing(this);
+  serving(this);
+  testing(this);
 
   this.declare_tests();
 
