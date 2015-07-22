@@ -66,7 +66,7 @@ module.exports = function (h5_test) {
     });
   }
 
-  function stop_server(callback) {
-    server.close();
+  function stop_server(timeout) {
+    //server.close();
   }
 }

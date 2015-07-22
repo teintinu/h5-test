@@ -25,13 +25,12 @@ module.exports = function (root, localization) {
   h5_test.declare_tests(function () {
     h5_test.start_server(function () {
       h5_test.generate_test_file();
-      h5_test.execute_galen(function () {
-        console.log('O servidor será finalizado em 10s');
-        setTimeout(function () {
-          h5_test.stop_server(function () {
-            console.log('.');
-          });
-        }, 10000);
+      h5_test.execute_galen(function (failed) {
+        if (failed) {
+          console.log('O servidor será finalizado em 60s');
+          h5_test.stop_server(60000);
+        } else
+          h5_test.stop_server();
       });
     });
   });

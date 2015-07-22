@@ -30,9 +30,7 @@ module.exports = function (h5_test) {
       test_file.push(_case.scenario.title + ' (${browserName})');
       test_file.push('  selenium grid ${gridUrl} --page ' +
 
-        'http://' + h5_test.http_root + '/' + _case.http_index
-
-        +
+        h5_test.http_root + '/' + _case.case_folder + _case.http_index +
         ' ${gridArgs}');
 
       _case.stmts.forEach(function (stmt) {
