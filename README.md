@@ -63,7 +63,7 @@ copia o arquivo da pasta template para pasta temp, executando substituições de
 copia o arquivo webpack.config.js da subpasta informada na pasta template para pasta temp, executando substituições definidas pelo replace e chama o webpack na .
 
 `h5_test.pack('app', next);`
->> é um comando assíncrono, deve ser o último no step
+> é um comando assíncrono, deve ser o último no step
 
 ### check
 copia o arquivo da pasta template para pasta temp, executando substituições definidas pelo replace e coloca esse arquivo para que o galen execute o comando CHECK nele
@@ -71,13 +71,20 @@ copia o arquivo da pasta template para pasta temp, executando substituições de
 `h5_test.check('test/app.store.spec');`
 
 ### run
-copia o arquivo da pasta template para pasta temp, executando substituições definidas pelo replace e coloca esse arquivo para que o galen execute o comando RUN nele
+copia o arquivo da pasta template para pasta temp, executando substituições definidas pelo replace e coloca esse arquivo para que o galen execute o comando RUN nele. pode passar argumentos.
 
 `h5_test.run('test/r1.js');`
 
+`h5_test.run('test/login.js', {user: 'admin', pwd: '123'});`
+
+> o script será executado com as globais: arg, driver
+
 ### wait
-programa uma pausa na executação dos testes, a unidade pode ser em ms ou s
+programa uma pausa na executação dos testes
+a unidade pode ser em ms ou s
 `h5_test.wait('200ms')`
+pode-se especificar condições para encerrar o timeout
+`h5_test.wait('200ms until exist "css: div.list a"')`
 
 ### open
 programa a mudança de url na execução de testes
@@ -86,3 +93,12 @@ programa a mudança de url na execução de testes
 ### resize
 programa a mudança do tamanho da janela do navegador durante a execução dos testes 
 `h5_test.resize(1024,768)`
+
+### inject
+programa a inserção de um script na página
+`h5_test.inject('arq.js')`
+
+### dump
+programa a criação de um arquivo com o SPEC atual da página.
+`h5_test.dump('temp.spec')`
+> o arquivo é criado na pasta temp 
