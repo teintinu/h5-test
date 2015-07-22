@@ -4,6 +4,7 @@ var declaring = require('./declaring.js'),
   serving = require('./serving.js'),
   testing = require('./testing.js'),
   running = require('./running.js'),
+  optimist = require("optimist"),
   path = require('path');
 
 module.exports = function (root, localization) {

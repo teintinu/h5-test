@@ -13,15 +13,17 @@ module.exports = function (h5_test) {
   function serve(arq) {
     h5_test.file(arq);
 
-    app_express.get(h5_test.case_id, function (req, res) {
-      res.redirect(h5_test.case_id + '/');
-    });
+//    app_express.get(h5_test.galen_case.case_folder, function (req, res) {
+//      res.redirect(h5_test.galen_case.case_folder + '/');
+//    });
 
-    app_express.use(h5_test.case_id + '/', express.static(h5_test.temp_root));
+//    console.log('express '+h5_test.galen_case.case_folder + ' ---- '+h5_test.temp);
 
-    app_express.get(h5_test.case_id + '/', function (req, res) {
-      res.send('index.html');
-    });
+//    app_express.use(h5_test.galen_case.case_folder  , express.static(h5_test.temp));
+
+//    app_express.get(h5_test.galen_case.case_folder + '/', function (req, res) {
+//      res.send('index.html');
+//    });
   }
 
   function start_server(callback) {
