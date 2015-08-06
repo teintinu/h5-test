@@ -45,7 +45,7 @@ module.exports = function (h5_test) {
         else if (stmt.resize)
           test_file.push('     resize ' + stmt.resize)
         else if (stmt.inject)
-          test_file.push('     inject ' + stmt.inject)
+          test_file.push('     inject ' +  _case.case_folder + stmt.inject)
         else if (stmt.dump && h5_test.dev_mode)
           test_file.push('     dump ' + stmt.dump)
         else

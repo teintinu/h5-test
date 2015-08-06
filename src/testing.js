@@ -42,6 +42,7 @@ module.exports = function (h5_test) {
   }
 
   function inject(script) {
+    h5_test.file(arq);
     h5_test.galen_case.stmts.push({
       inject: script
     });
