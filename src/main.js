@@ -6,6 +6,11 @@ var argv = require('yargs')
     choices: ['local', 'selenium'],
     default: 'selenium'
   })
+  .option('g', {
+    description: 'só gera, sem executar os testes',
+    default: false,
+    alias: 'generate'
+  })
   .option('h', {
     description: 'IP do servidor',
     default: '192.168.25.102',
@@ -61,12 +66,12 @@ module.exports = function (root, localization) {
   var bug_run=false;
   h5_test.declare_tests(function () {
     if (bug_run){
-      console.log('bug_run');
+      //console.log('bug_run');
       return;
     }
     bug_run=true;
     h5_test.start_server(function () {
-      h5_test.generate_test_file();
+      h5_test.generate_test_file();      
       h5_test.execute_galen(function (failed) {
         if (failed) {
           console.log('O servidor será finalizado em 60s');

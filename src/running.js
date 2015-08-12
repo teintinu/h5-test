@@ -70,6 +70,13 @@ module.exports = function (h5_test) {
 
   function execute_galen(callback) {
 
+      if (h5_test.argv.generate)
+      {
+          console.log('galen nao foi executado');
+          h5_test.stop_server(60000);
+          return;
+      } 
+      
     var cmd = ['galen', 'test', h5_test.galen_test_file, //
                '--htmlreport', 'report', '--jsonreport', 'report'];
 
