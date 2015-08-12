@@ -26,7 +26,6 @@ module.exports = function (h5_test) {
   /* copia o arquivo de template para temp fazendo as substituições necessárias */
 
   function file(src) {
-
     var conteudo = fs.readFileSync(h5_test.root + '/test/template/' + src, {
       encoding: 'utf8'
     });

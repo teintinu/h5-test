@@ -44,8 +44,12 @@ module.exports = function (h5_test) {
         var myip = myips.filter(function (i) {
           return i.ip_address && i.ip_address.match(/^192\.168\.25.\d\d?\d?$/);
         });
-        expect(myip).to.have.length(1);
-        myip = myip[0].ip_address;
+		if(myip.length == 0)
+           myip = '127.0.0.1';
+        else{
+          expect(myip).to.have.length(1);
+          myip = myip[0].ip_address;
+        }
       }
       h5_test.listenning = {
         addr: myip,

@@ -10,28 +10,39 @@ module.exports = function (h5_test) {
 
   h5_test.generate_test_file = generate_test_file;
   h5_test.execute_galen = execute_galen;
+  var isSelenioum = h5_test.argv.type == 'selenium';
 
   function generate_test_file() {
-    var test_file = [
-    '@@ set',
-    '    gridUrl         http://192.168.25.102:4444/wd/hub',
-    '',
-    '@@ table browsers',
-    '    | browserName   | gridArgs                            |',
-    '    | Firefox       | --browser "firefox"                 |',
-    '    | Chrome        | --browser "chrome"                  |',
-    ''
-  ];
+    var test_file = [];
+    if (isSelenioum) {
+      test_file = [
+       '@@ set',
+       '    gridUrl         http://192.168.25.102:4444/wd/hub',
+       '',
+       '@@ table browsers',
+       '    | browserName   | gridArgs                            |',
+       '    | Firefox       | --browser "firefox"                 |',
+       '    | Chrome        | --browser "chrome"                  |',
+       ''
+      ];
+    }
 
     h5_test.galen_cases.forEach(function (_case) {
 
       test_file.push('');
-      test_file.push('@@ parameterized using browsers');
-      test_file.push(_case.scenario.title + ' (${browserName})');
-      test_file.push('  selenium grid ${gridUrl} --page ' +
+        test_file.push('# '+ _case.scenario);
+     if (isSelenioum) {
+        test_file.push('@@ parameterized using browsers');
+        test_file.push(_case.scenario.title + ' (${browserName})');
+        test_file.push('  selenium grid ${gridUrl} --page ' +
 
         h5_test.http_root + '/' + _case.case_folder + _case.http_index +
         ' ${gridArgs}');
+      }
+      else {
+         test_file.push(_case.scenario.title);
+         test_file.push('  '+ h5_test.http_root + '/' + _case.case_folder + _case.http_index + ' ' + h5_test.argv.size)
+      }
 
       _case.stmts.forEach(function (stmt) {
         if (stmt.check)
@@ -45,7 +56,7 @@ module.exports = function (h5_test) {
         else if (stmt.resize)
           test_file.push('     resize ' + stmt.resize)
         else if (stmt.inject)
-          test_file.push('     inject ' +  _case.case_folder + stmt.inject)
+          test_file.push('     inject ' + _case.case_folder + stmt.inject)
         else if (stmt.dump && h5_test.dev_mode)
           test_file.push('     dump ' + stmt.dump)
         else
