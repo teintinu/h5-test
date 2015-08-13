@@ -10,6 +10,7 @@ module.exports = function (h5_test) {
 
   h5_test.generate_test_file = generate_test_file;
   h5_test.execute_galen = execute_galen;
+
   var isSelenioum = h5_test.argv.type == 'selenium';
 
   function generate_test_file() {
@@ -30,7 +31,7 @@ module.exports = function (h5_test) {
     h5_test.galen_cases.forEach(function (_case) {
 
       test_file.push('');
-        test_file.push('# '+ _case.scenario);
+//        test_file.push('# '+ _case.scenario);
      if (isSelenioum) {
         test_file.push('@@ parameterized using browsers');
         test_file.push(_case.scenario.title + ' (${browserName})');
@@ -41,7 +42,7 @@ module.exports = function (h5_test) {
       }
       else {
          test_file.push(_case.scenario.title);
-         test_file.push('  '+ h5_test.http_root + '/' + _case.case_folder + _case.http_index + ' ' + h5_test.argv.size)
+         test_file.push('  '+ h5_test.http_root + '/' + _case.case_folder + _case.http_index + ' ' + (_case.size ? _case.size : h5_test.argv.size))
       }
 
       _case.stmts.forEach(function (stmt) {

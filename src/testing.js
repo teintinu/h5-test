@@ -6,6 +6,11 @@ module.exports = function (h5_test) {
     h5_test.resize = resize;
     h5_test.inject = inject;
     h5_test.dump = dump;
+    h5_test.size = size;
+
+    function size (size) {
+        h5_test.galen_case.size = size;
+    }
 
     function check(arq) {
         h5_test.file(arq);
