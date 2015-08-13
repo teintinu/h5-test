@@ -1,6 +1,6 @@
 {
   "name": "h5-test",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "```javascript var h5_test=require('h5-test');",
   "main": "src/main.js",
   "bin": {
